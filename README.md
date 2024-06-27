@@ -1,7 +1,7 @@
 # Active Learning for Stellar Spectral Classification
 
 ## Description
-This repository contains the code associated with the paper "Active Learning for Stellar Spectral Classification" (in preparation). The project focuses on the application of active learning methodologies to enhance the efficiency and accuracy of classifying stellar spectra. Traditional machine learning approaches for spectral classification often require vast amounts of labeled data, which is labor-intensive to obtain. Active learning, by contrast, strategically selects the most informative samples for labeling, thus minimizing the required labeled dataset while maximizing model performance.
+This repository contains the code associated with the paper "Active Learning for Stellar Spectral Classification" (submitted to MNRAS). The project focuses on the application of active learning methodologies to enhance the efficiency and accuracy of classifying stellar spectra. Traditional machine learning approaches for spectral classification often require vast amounts of labeled data, which is labor-intensive to obtain. Active learning, by contrast, strategically selects the most informative samples for labeling, thus minimizing the required labeled dataset while maximizing model performance.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -62,14 +62,16 @@ This project is licensed under the GPL License.
 ## Citing
 If you use this code in your projects, you can cite it as
 ```latex
-@article{stellarAL2024,
-    title={Active Learning for Stellar Spectral Classification},
-    author={Reham El-Kholy and Hayman Metwally},
-    year={2024},
-    url={https://github.com/rehamelkholy/StellarAL},
-    doi={10.5281/zenodo.11396281}
+@misc{elkholy2024,
+      title={Active Learning for Stellar Spectral Classification}, 
+      author={R. El-Kholy and Z. M. Hayman},
+      year={2024},
+      eprint={2406.18366},
+      archivePrefix={arXiv},
+      primaryClass={astro-ph.SR},
+      url={https://arxiv.org/abs/2406.18366}, 
 }
 ```
 
 ## Contact
-Dr. Reham El-Kholy has a PhD in Astronomy from Cairo University where she works as a Lecturer of Astronomy. If you have any questions, requests, or suggestions, you can contact her at [relkholy@sci.cu.edu.eg](mailto:relkholy@sci.cu.edu.eg). We hope you will find this useful!
+Dr. Reham El-Kholy has a PhD from Cairo University where she works as a Lecturer of Astronomy. If you have any questions, requests, or suggestions, you can contact her at [relkholy@sci.cu.edu.eg](mailto:relkholy@sci.cu.edu.eg). We hope you will find this useful!
