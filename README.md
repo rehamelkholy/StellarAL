@@ -1,7 +1,7 @@
 # Active Learning for Stellar Spectral Classification
 
 ## Description
-This repository contains the code associated with the paper "Active Learning for Stellar Spectral Classification" (submitted to MNRAS). The project focuses on the application of active learning methodologies to enhance the efficiency and accuracy of classifying stellar spectra. Traditional machine learning approaches for spectral classification often require vast amounts of labeled data, which is labor-intensive to obtain. Active learning, by contrast, strategically selects the most informative samples for labeling, thus minimizing the required labeled dataset while maximizing model performance.
+This repository contains the code associated with the paper "Optimized sampling of SDSS-IV MaStar spectra for stellar classification using supervised models". The project focuses on the application of active learning methodologies to enhance the efficiency and accuracy of classifying stellar spectra. Traditional machine learning approaches for spectral classification often require vast amounts of labeled data, which is labor-intensive to obtain. Active learning, by contrast, strategically selects the most informative samples for labeling, thus minimizing the required labeled dataset while maximizing model performance.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -63,7 +63,7 @@ This project is licensed under the GPL License.
 If you use this code in your projects, you can cite it as
 ```latex
 @misc{elkholy2024,
-      title={Active Learning for Stellar Spectral Classification}, 
+      title={Optimized sampling of SDSS-IV MaStar spectra for stellar classification using supervised models}, 
       author={R. El-Kholy and Z. M. Hayman},
       year={2024},
       eprint={2406.18366},
