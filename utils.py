@@ -117,6 +117,7 @@ def select_features(flux_arr, wl_arr, line_wl, bounds=8):
     index = np.argmin(np.abs(wl_arr - line_wl))
  
     # Extract a subset of features centered around line_wl
+    print(f"Wavelength bounds ({line_wl}): {wl_arr[index-bounds]:.2f} - {wl_arr[index+bounds]:.2f}")
     new_flux_arr = flux_arr[:,index-bounds:index+bounds+1]
     return new_flux_arr
 
@@ -752,22 +753,6 @@ def run_methods(X_train, y_train, X_test, y_test, n_classes, n_initial, n_instan
     - It also uses an external method `test_sampling_method` to test each sampling strategy.
     - The function assumes the presence of the `clear_output` function from IPython.display 
       for output clearing during iterations.
-
-    Examples
-    --------
-    >>> X_train, X_test, y_train, y_test = load_pkl_data('data.pkl')
-    >>> model = 'rf'
-    >>> strategies = ['random', 'uncertainty', 'entropy']
-    >>> n_classes = 3
-    >>> n_initial = 50
-    >>> n_instances = 100
-    >>> n_runs = 10
-    >>> scores_df = run_methods(X_train, y_train, X_test, y_test, n_classes, n_initial, n_instances, n_runs, model, strategies)
-    >>> print(scores_df)
-       strategy        auc        mcc        sen      spec
-    0    random  [0.8,...]  [0.6,...]  [0.7,...]  [0.9,...]
-    1  uncertainty  [0.85,...]  [0.65,...]  [0.75,...]  [0.95,...]
-    2    entropy  [0.83,...]  [0.63,...]  [0.73,...]  [0.93,...]
     """
     scores = {}
     for strategy in strategies: scores[strategy] = []
@@ -782,17 +767,43 @@ def run_methods(X_train, y_train, X_test, y_test, n_classes, n_initial, n_instan
     clear_output()
     print('Calculating scores..')
     
+    # List to store all the results as rows for DataFrame
+    results = []
     metrics = ['auc', 'mcc', 'sen', 'spec']
-    scores_df = pd.DataFrame(columns=['strategy']+metrics)
-    arr = np.array([])
-    for strategy in strategies:
-        scores_df.loc[len(scores_df)] = [strategy,arr,arr,arr,arr]
-        for metric,idx in zip(metrics,range(len(metrics))):
-            score = np.empty((n_runs, int(n_instances/5)+1))
-            for run in range(n_runs):
-                score[run,:] = scores[strategy][run][idx,:]
+    # scores_df = pd.DataFrame(columns=['strategy']+metrics)
+    # arr = np.array([])
+    # for strategy in strategies:
+    #     scores_df.loc[len(scores_df)] = [strategy,arr,arr,arr,arr]
+    #     for metric,idx in zip(metrics,range(len(metrics))):
+    #         score = np.empty((n_runs, int(n_instances/5)+1))
+    #         for run in range(n_runs):
+    #             score[run,:] = scores[strategy][run][idx,:]
             
-            scores_df.at[len(scores_df)-1, metric] = np.mean(score, axis=0)
+    #         scores_df.at[len(scores_df)-1, metric] = np.mean(score, axis=0)
+    
+    # Populate the results list with individual run scores
+    for strategy in strategies:
+        for run in range(n_runs):
+            run_scores = scores[strategy][run]
+            for metric_idx, metric in enumerate(metrics):
+                metric_scores = run_scores[metric_idx, :]  # Scores for each metric across instances
+                for instance_idx, instance_score in enumerate(metric_scores):
+                    results.append({
+                        'strategy': strategy,
+                        'run': run + 1,  # 1-based run index
+                        'instance': instance_idx * 5,  # 1-based instance index
+                        metric: instance_score
+                    })
+    
+    # Convert results to DataFrame
+    scores_df = pd.DataFrame(results)
+    # Group by `strategy`, `run`, and `instance` and aggregate with `first` to combine rows
+    scores_df = scores_df.groupby(['strategy', 'run', 'instance'], as_index=False).agg({
+        'auc': 'first',
+        'mcc': 'first',
+        'sen': 'first',
+        'spec': 'first'
+    })
     
     print('Done!')
     
@@ -868,7 +879,7 @@ def plot_scores(scores, n_initial, n_instances, metric, ax, add_title=False, add
     if add_xlabel: ax.set_xlabel('Number of additional instances')
     if add_ylabel: ax.set_ylabel(m + ' on test set')
     
-    ax.grid(True)
+    #ax.grid(True)
     
     if add_legend: ax.legend();
     
